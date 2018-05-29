@@ -1,5 +1,29 @@
 .form{
-  background: red;
   width: 700px;
   height: 400px;
+  outline: 4px dashed #1c7096;
+  outline-offset: -10px;
+  background: #5ca8ca;
+  transition: 0.3s;
+  position: relative;
+  &:hover{
+    outline-offset: -20px;
+    outline-color: #5ca8ca;
+    background: #1c7096;
+  }
+  &__input{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: 0;
+  }
+  &__label{
+    width: 100%;
+    height:100%;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    font-size: 40px;
+    cursor: pointer;
+  }
 }
