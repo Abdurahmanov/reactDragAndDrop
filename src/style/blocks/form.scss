@@ -6,6 +6,11 @@
   background: #5ca8ca;
   transition: 0.3s;
   position: relative;
+  &_hover{
+    outline-offset: -20px;
+    outline-color: #5ca8ca;
+    background: #1c7096;
+  }
   &:hover{
     outline-offset: -20px;
     outline-color: #5ca8ca;
