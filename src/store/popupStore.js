@@ -1,10 +1,14 @@
 import { observable} from 'mobx';
 
 class popupStore {
-  observable(show);
+  @observable show;
 
   constructor() {
     this.show = false;
+  }
+
+  showPopup() {
+    this.show = !this.show;
   }
 }
 

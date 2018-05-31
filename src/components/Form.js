@@ -4,7 +4,7 @@ import popupStore from '../store/popupStore';
 import Popup from './Popup';
 import Table from './FormTable';
 
-// @observer
+@observer
 class Form extends Component {
     render() {
         return (
@@ -27,7 +27,7 @@ class Form extends Component {
               }
 
               {
-                this.state.showPopup
+                popupStore.show
                   ? <Popup msg={this.state.errorMsg}/>
                   : null
               }
@@ -72,13 +72,13 @@ class Form extends Component {
         if(f.type !== 'application/json'){
             this.setState({
                 errorMsg:`Вы загрузили ${f.type}, так не пойдет! Загрузите файл json`,
-                showPopup:true
             });
+            popupStore.showPopup()
         } else if(f.size === 0){
             this.setState({
                 errorMsg:'Вы загрузили пустой json',
-                showPopup:true
             });
+            popupStore.showPopup()
         } else{
             reader.onloadend = e =>{
                 try {
@@ -103,10 +103,7 @@ class Form extends Component {
                         });
                     }
                 } catch (error){
-                    console.log(error)
-                    this.setState({
-                        showPopup:true
-                    });
+                    popupStore.showPopup()
                     if(error.message.indexOf("token '") !== -1){
                         this.setState({
                             errorMsg:'Ошибка! Пристутствуют недопустимые одинарные кавычки',
