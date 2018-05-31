@@ -7,7 +7,7 @@ class Popup extends Component {
       <div className="popup">
         <div className="popup__inner">
           <div className="popup__modal">
-            {this.props.msg}
+            {popupStore.msg}
           </div>
           <div
             className="popup__shadow"

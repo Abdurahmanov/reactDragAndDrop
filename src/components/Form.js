@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import popupStore from '../store/popupStore';
+import tableStore from '../store/tableStore';
 import Popup from './Popup';
 import Table from './FormTable';
 
@@ -21,14 +22,14 @@ class Form extends Component {
                     <label htmlFor="file" className="form__label">Загрузить json</label>
                 </form>
               {
-                this.state.fileArr.length !== 0
+                tableStore.fileArr.length !== 0
                   ? <Table arr={this.state.fileArr}/>
                   : null
               }
 
               {
                 popupStore.show
-                  ? <Popup msg={this.state.errorMsg}/>
+                  ? <Popup/>
                   : null
               }
 
@@ -41,9 +42,7 @@ class Form extends Component {
         super(props);
 
         this.state = {
-            errorMsg:'',
-            fileArr:[],
-            showPopup:false,
+            fileArr:[]
         };
     }
     componentDidMount(){
@@ -63,21 +62,17 @@ class Form extends Component {
     }
 
     onFileDrop(e){
+        this.dragLeave()
         let fileList = this.state.fileArr
         let f = e.target.files[0]
+        console.log(f)
         let reader = new FileReader();
 
-        this.dragLeave()
-
         if(f.type !== 'application/json'){
-            this.setState({
-                errorMsg:`Вы загрузили ${f.type}, так не пойдет! Загрузите файл json`,
-            });
+            popupStore.setMsg(`Вы загрузили ${f.type}, так не пойдет! Загрузите файл json`)
             popupStore.showPopup()
         } else if(f.size === 0){
-            this.setState({
-                errorMsg:'Вы загрузили пустой json',
-            });
+            popupStore.setMsg('Вы загрузили пустой json')
             popupStore.showPopup()
         } else{
             reader.onloadend = e =>{
@@ -89,38 +84,26 @@ class Form extends Component {
                             name:f.name,
                             size:f.size/1000
                         })
-                        this.setState({
-                            fileArr:fileList
-                        });
+                        tableStore.setArr(fileList)
                     } else{
                         fileList.push({
                             length:arr.length,
                             name:f.name,
                             size:f.size/1000
                         })
-                        this.setState({
-                            fileArr:fileList
-                        });
+                        tableStore.setArr(fileList)
                     }
                 } catch (error){
-                    popupStore.showPopup()
                     if(error.message.indexOf("token '") !== -1){
-                        this.setState({
-                            errorMsg:'Ошибка! Пристутствуют недопустимые одинарные кавычки',
-                        });
+                        popupStore.setMsg('Ошибка! Пристутствуют недопустимые одинарные кавычки')
                     } else if(error.message.indexOf("token ,") !== -1){
-                        this.setState({
-                            errorMsg:'Ошибка! Отсутсвуют ключ/значение',
-                        });
+                        popupStore.setMsg('Ошибка! Отсутсвуют ключ/значение')
                     } else if(error.message.indexOf("token ") !== -1){
-                        this.setState({
-                            errorMsg:'Ошибка! Отсутсвуют двойные кавычки',
-                        });
+                        popupStore.setMsg('Ошибка! Отсутсвуют двойные кавычки')
                     } else{
-                        this.setState({
-                            errorMsg:error,
-                        });
+                        popupStore.setMsg(error)
                     }
+                    popupStore.showPopup()
                 }
             }
             reader.readAsText(f);

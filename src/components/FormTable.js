@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import tableStore from '../store/tableStore';
 
 class Table extends Component {
 
   render() {
     let i = 1
-    let fileList = this.props.arr.map( (name) => {
+    let fileList = tableStore.fileArr.map( (name) => {
       return <tr key={i++}>
         <td>{name.name}</td>
         <td>{name.length}</td>
