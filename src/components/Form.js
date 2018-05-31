@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { observer } from 'mobx-react';
+import popupStore from '../store/popupStore';
 import Popup from './Popup';
 import Table from './FormTable';
 
+// @observer
 class Form extends Component {
     render() {
         return (
@@ -16,7 +19,6 @@ class Form extends Component {
                       onDragOver={this.dragOver}
                       onDragLeave={this.dragLeave}/>
                     <label htmlFor="file" className="form__label">Загрузить json</label>
-
                 </form>
               {
                 this.state.fileArr.length !== 0
@@ -101,25 +103,25 @@ class Form extends Component {
                         });
                     }
                 } catch (error){
+                    console.log(error)
+                    this.setState({
+                        showPopup:true
+                    });
                     if(error.message.indexOf("token '") !== -1){
                         this.setState({
                             errorMsg:'Ошибка! Пристутствуют недопустимые одинарные кавычки',
-                            showPopup:true
                         });
                     } else if(error.message.indexOf("token ,") !== -1){
                         this.setState({
                             errorMsg:'Ошибка! Отсутсвуют ключ/значение',
-                            showPopup:true
                         });
                     } else if(error.message.indexOf("token ") !== -1){
                         this.setState({
-                            errorMsg:'Ошибка! Отсутсвуют "" кавычки',
-                            showPopup:true
+                            errorMsg:'Ошибка! Отсутсвуют двойные кавычки',
                         });
                     } else{
                         this.setState({
                             errorMsg:error,
-                            showPopup:true
                         });
                     }
                 }
