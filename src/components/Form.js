@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Popup from './Popup';
 
 class Form extends Component {
     render() {
@@ -7,6 +8,7 @@ class Form extends Component {
             return <div key={i++}>
                 <div>Имя файла - {name.name}</div>
                 <div>Кол-во объектов в json - {name.length}</div>
+                <div>Размер файла json - {name.size.toFixed(1)} кБ</div>
             </div>;
         });
         return (
@@ -19,9 +21,13 @@ class Form extends Component {
                 <div className="form__List">
                    {fileList}
                 </div>
+              {
+                this.state.showPopup
+                  ? <Popup msg={this.state.errorMsg}/>
+                  : null
+              }
+
             </div>
-
-
 
         );
     }
@@ -32,18 +38,13 @@ class Form extends Component {
 
         this.state = {
             errorMsg:'',
-            fileArr:[]
+            fileArr:[],
+            showPopup:false,
+            kek:''
         };
     }
     componentDidMount(){
 
-    }
-
-
-    dragStart(){
-        console.log('pek')
-        // let el = document.getElementById('file')
-        // el.classList.add('form_hover')
     }
 
     dragOver(){
@@ -53,23 +54,30 @@ class Form extends Component {
 
     dragLeave(){
         let el = document.getElementById('form')
-        el.classList.remove('form_hover')
+        if(el.classList.contains('form_hover')){
+            el.classList.remove('form_hover')
+        }
     }
 
     onFileDrop(e){
         console.log(e.target.files[0])
-        let el = document.getElementById('form')
         let fileList = this.state.fileArr
-        if(el.classList.contains('form_hover')){
-            el.classList.remove('form_hover')
-        }
+        this.dragLeave()
 
         let f = e.target.files[0]
         console.log(f.type)
         let reader = new FileReader();
         if(f.type !== 'application/json'){
+            this.setState({
+                errorMsg:`Вы загрузили ${f.type}, так не пойдет! Загрузите файл json`,
+                showPopup:true
+            });
             console.log(`Вы загрузили ${f.type}, так не пойдет! Загрузите файл json`)
         } else if(f.size === 0){
+            this.setState({
+                errorMsg:'Вы загрузили пустой json',
+                showPopup:true
+            });
             console.log(`Вы загрузили пустой json`)
         } else{
             reader.onloadend = e =>{
@@ -78,7 +86,8 @@ class Form extends Component {
                     if(!Array.isArray(arr)){
                         fileList.push({
                             length:[arr].length,
-                            name:f.name
+                            name:f.name,
+                            size:f.size/1000
                         })
                         this.setState({
                             fileArr:fileList
@@ -86,7 +95,8 @@ class Form extends Component {
                     } else{
                         fileList.push({
                             length:arr.length,
-                            name:f.name
+                            name:f.name,
+                            size:f.size/1000
                         })
                         this.setState({
                             fileArr:fileList
@@ -95,14 +105,27 @@ class Form extends Component {
                 } catch (error){
                     console.log(error)
                     if(error.message.indexOf("token '") !== -1){
+                        this.setState({
+                            errorMsg:'Ошибка! Пристутствуют недопустимые одинарные кавычки',
+                            showPopup:true
+                        });
                         console.log('Ошибка! Пристутствуют недопустимые одинарные кавычки')
                     } else if(error.message.indexOf("token ,") !== -1){
+                        this.setState({
+                            errorMsg:'Ошибка! Отсутсвуют ключ/значение',
+                            showPopup:true
+                        });
                         console.log('Ошибка! Отсутсвуют ключ/значение')
                     } else if(error.message.indexOf("token ") !== -1){
+                        this.setState({
+                            errorMsg:'Ошибка! Отсутсвуют "" кавычки',
+                            showPopup:true
+                        });
                         console.log('Ошибка! Отсутсвуют "" кавычки')
                     } else{
                         this.setState({
-                            errorMsg:error
+                            errorMsg:error,
+                            showPopup:true
                         });
                     }
 
