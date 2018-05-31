@@ -23,10 +23,9 @@ class Table extends Component {
           </tr>
           </thead>
           <tbody>
-          {fileList}
+            {fileList}
           </tbody>
         </table>
-
       </div>
     );
   }

@@ -37,16 +37,12 @@ class Form extends Component {
         );
     }
 
-
     constructor(props) {
         super(props);
 
         this.state = {
             fileArr:[]
         };
-    }
-    componentDidMount(){
-
     }
 
     dragOver(){
