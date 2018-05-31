@@ -41,7 +41,8 @@ class Form extends Component {
         super(props);
 
         this.state = {
-            fileArr:[]
+            fileArr:[],
+            length:1
         };
     }
 
@@ -57,6 +58,23 @@ class Form extends Component {
         }
     }
 
+    recursiveCount(json) {
+        let len = this.state.length
+        let i;
+        for (let k in json) {
+            i = json[k];
+            if (typeof i === 'object') {
+                console.log(i)
+                len = len+1
+                this.setState({
+                    length:len
+                });
+                this.recursiveCount(i);
+
+            }
+        }
+    }
+
     onFileDrop(e){
         this.dragLeave()
         let fileList = this.state.fileArr
@@ -64,7 +82,7 @@ class Form extends Component {
         let inputFile = document.getElementById('file')
         let reader = new FileReader();
         reader.readAsText(f);
-
+        inputFile.value = ''
         if(f.type !== 'application/json'){
             popupStore.setMsg(`Вы загрузили ${f.type}, так не пойдет! Загрузите файл json`)
             popupStore.showPopup()
@@ -74,22 +92,16 @@ class Form extends Component {
         } else{
             reader.onloadend = e =>{
                 try {
-                    let arr = JSON.parse(e.target.result)
-                    if(!Array.isArray(arr)){
-                        fileList.push({
-                            length:[arr].length,
-                            name:f.name,
-                            size:f.size/1000
-                        })
-                        tableStore.setArr(fileList)
-                    } else{
-                        fileList.push({
-                            length:arr.length,
-                            name:f.name,
-                            size:f.size/1000
-                        })
-                        tableStore.setArr(fileList)
-                    }
+                    let json = JSON.parse(e.target.result)
+                    console.log(json)
+                    this.recursiveCount(json)
+                    let length = this.state.length
+                    fileList.push({
+                        length:length,
+                        name:f.name,
+                        size:f.size/1000
+                    })
+                    tableStore.setArr(fileList)
                 } catch (error){
                     if(error.message.indexOf("token '") !== -1){
                         popupStore.setMsg('Ошибка! Пристутствуют недопустимые одинарные кавычки')
@@ -103,8 +115,10 @@ class Form extends Component {
                     popupStore.showPopup()
                 }
             }
-            inputFile.value = ''
         }
+        this.setState({
+            length:1
+        });
     }
 }
 

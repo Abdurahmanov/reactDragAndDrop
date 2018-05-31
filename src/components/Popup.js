@@ -7,6 +7,9 @@ class Popup extends Component {
       <div className="popup">
         <div className="popup__inner">
           <div className="popup__modal">
+            <div
+                className="popup__close"
+                onClick={()=>{popupStore.showPopup()}}>+</div>
             {popupStore.msg}
           </div>
           <div

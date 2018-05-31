@@ -28,3 +28,15 @@
     text-align: center;
     box-shadow: 3px 0 32px rgba(0, 0, 0, 0.5);
     font-size: 24px; }
+  .popup__close {
+    position: absolute;
+    transform: rotate(45deg);
+    right: 20px;
+    top: 0px;
+    font-size: 40px;
+    color: rgba(0, 0, 0, 0.8);
+    transition: 0.3s;
+    cursor: pointer; }
+    .popup__close:hover {
+      color: black;
+      transition: 0.3s; }
