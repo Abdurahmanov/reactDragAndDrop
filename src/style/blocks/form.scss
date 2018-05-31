@@ -6,6 +6,7 @@
   background: #5ca8ca;
   transition: 0.3s;
   position: relative;
+  margin-top: 100px;
   &_hover{
     outline-offset: -20px;
     outline-color: #5ca8ca;
@@ -30,5 +31,45 @@
     align-items: center;
     font-size: 40px;
     cursor: pointer;
+  }
+  &__table{
+    height: calc(100% - 550px);
+    overflow: auto;
+    margin-top: 30px;
+    table{
+      width: 100%;
+      text-align: center;
+      border-spacing: 0;
+      border-collapse: collapse;
+    }
+    thead{
+      tr{
+        &:hover{
+          background: #fff
+        }
+      }
+    }
+    tr{
+      background-color: #fff;
+      border-bottom: 1px solid #f6f6f6;
+      transition: .3s;
+      &:hover{
+        background: #f6f6f6;
+        transition: .3s;
+      }
+    }
+    th{
+      font-size: 20px;
+      line-height: 35px;
+      color: #464342;
+      padding-bottom: 8px;
+      padding-top: 8px;
+    }
+    td{
+      padding: 8px 0;
+      font-size: 16px;
+      color: #464342;
+      line-height: 35px;
+    }
   }
 }
