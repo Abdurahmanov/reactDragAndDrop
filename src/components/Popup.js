@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import popupStore from '../store/popupStore';
+import { inject, observer } from 'mobx-react';
 
+@inject('popupStore')
+@observer
 class Popup extends Component {
   render() {
     return (
@@ -9,12 +11,12 @@ class Popup extends Component {
           <div className="popup__modal">
             <div
                 className="popup__close"
-                onClick={()=>{popupStore.showPopup()}}>+</div>
-            {popupStore.msg}
+                onClick={()=>{this.props.popupStore.showPopup()}}>+</div>
+            {this.props.popupStore.msg}
           </div>
           <div
             className="popup__shadow"
-            onClick={()=>{popupStore.showPopup()}}></div>
+            onClick={()=>{this.props.popupStore.showPopup()}}></div>
         </div>
       </div>
     );

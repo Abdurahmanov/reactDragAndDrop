@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import tableStore from '../store/tableStore';
+import { inject, observer } from 'mobx-react';
 
+@inject('tableStore')
+@observer
 class Table extends Component {
-
   render() {
-    let i = 1
-    let fileList = tableStore.fileArr.map( (name) => {
-      return <tr key={i++}>
+    let fileList = this.props.tableStore.fileArr.map( (name,index) => {
+      return <tr key={index}>
         <td>{name.name}</td>
         <td>{name.length}</td>
         <td>{name.size.toFixed(1)} кБ</td>
