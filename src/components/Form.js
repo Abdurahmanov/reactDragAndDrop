@@ -65,8 +65,9 @@ class Form extends Component {
         this.dragLeave()
         let fileList = this.state.fileArr
         let f = e.target.files[0]
-        console.log(f)
+        let inputFile = document.getElementById('file')
         let reader = new FileReader();
+        reader.readAsText(f);
 
         if(f.type !== 'application/json'){
             popupStore.setMsg(`Вы загрузили ${f.type}, так не пойдет! Загрузите файл json`)
@@ -106,7 +107,7 @@ class Form extends Component {
                     popupStore.showPopup()
                 }
             }
-            reader.readAsText(f);
+            inputFile.value = ''
         }
     }
 }
