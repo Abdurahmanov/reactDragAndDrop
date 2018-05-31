@@ -1,0 +1,30 @@
+.popup {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  display: table; }
+  .popup__shadow {
+    position: fixed;
+    content: '';
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    left: 0;
+    top: 0;
+    cursor: pointer; }
+  .popup__inner {
+    display: table-cell;
+    vertical-align: middle; }
+  .popup__modal {
+    width: 500px;
+    padding: 50px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    text-align: center;
+    box-shadow: 3px 0 32px rgba(0, 0, 0, 0.5);
+    font-size: 24px; }
