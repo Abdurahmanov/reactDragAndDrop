@@ -4,15 +4,21 @@ import { inject, observer } from 'mobx-react';
 @inject('tableStore')
 @observer
 class Table extends Component {
-  render() {
-    let fileList = this.props.tableStore.fileArr.map( (name,index) => {
+
+  fileList = props => {
+    let list = props.map( (item,index) => {
       return <tr key={index}>
-        <td>{name.name}</td>
-        <td>{name.length}</td>
-        <td>{name.size.toFixed(1)} кБ</td>
-        <td><a href={name.json} className="btn" download="result.json">Скачать</a></td>
-      </tr>;
-    });
+        <td>{item.name}</td>
+        <td>{item.length}</td>
+        <td>{item.size.toFixed(1)} кБ</td>
+        <td><a href={item.json} className="btn" download="result.json">Скачать</a></td>
+      </tr>
+
+    })
+    return list
+  }
+
+  render() {
     return (
       <div className="form__table">
         <table>
@@ -25,7 +31,7 @@ class Table extends Component {
           </tr>
           </thead>
           <tbody>
-            {fileList}
+            {this.fileList(this.props.tableStore.fileArr)}
           </tbody>
         </table>
       </div>
