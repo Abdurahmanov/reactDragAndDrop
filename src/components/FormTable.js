@@ -10,6 +10,7 @@ class Table extends Component {
         <td>{name.name}</td>
         <td>{name.length}</td>
         <td>{name.size.toFixed(1)} кБ</td>
+        <td><a href={name.json} className="btn" download="result.json">Скачать</a></td>
       </tr>;
     });
     return (
@@ -20,6 +21,7 @@ class Table extends Component {
             <th>Имя файла</th>
             <th>Кол-во объектов в json</th>
             <th>Размер файла json</th>
+            <th></th>
           </tr>
           </thead>
           <tbody>

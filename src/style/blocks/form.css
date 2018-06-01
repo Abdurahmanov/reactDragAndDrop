@@ -41,9 +41,18 @@
       background-color: #fff;
       border-bottom: 1px solid #f6f6f6;
       transition: .3s; }
+      .form__table tr .btn {
+        opacity: 0;
+        transition: 0.3s; }
       .form__table tr:hover {
         background: #e0e0e0;
         transition: .3s; }
+        .form__table tr:hover .btn {
+          opacity: 0.8;
+          transition: 0.3s; }
+          .form__table tr:hover .btn:hover {
+            opacity: 1;
+            transition: 0.3s; }
     .form__table th {
       font-size: 20px;
       line-height: 35px;

@@ -53,9 +53,21 @@
       background-color: #fff;
       border-bottom: 1px solid #f6f6f6;
       transition: .3s;
+      .btn{
+        opacity: 0;
+        transition: 0.3s;
+      }
       &:hover{
         background: #e0e0e0;
         transition: .3s;
+        .btn{
+          opacity: 0.8;
+          transition: 0.3s;
+          &:hover{
+            opacity: 1;
+            transition: 0.3s;
+          }
+        }
       }
     }
     th{

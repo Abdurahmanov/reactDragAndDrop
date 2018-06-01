@@ -32,6 +32,7 @@ class Form extends Component {
     recursiveCount = json => {
         let len = this.state.length
         let i;
+
         for (let k in json) {
             i = json[k];
             if (typeof i === 'object') {
@@ -50,8 +51,10 @@ class Form extends Component {
         let f = e.target.files[0]
         let inputFile = document.getElementById('file')
         let reader = new FileReader();
+
         reader.readAsText(f);
         inputFile.value = ''
+
         if(f.type !== 'application/json'){
             this.props.popupStore.setMsg(`Вы загрузили ${f.type}, так не пойдет! Загрузите файл json`)
             this.props.popupStore.showPopup()
@@ -62,13 +65,19 @@ class Form extends Component {
             reader.onloadend = e =>{
                 try {
                     let json = JSON.parse(e.target.result)
+                    let newJson = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(json, "", 4));
+
                     this.recursiveCount(json)
+
                     let length = this.state.length
+
                     fileList.push({
+                        json: newJson,
                         length:length,
                         name:f.name,
                         size:f.size/1000
                     })
+
                     this.props.tableStore.setArr(fileList)
                 } catch (error){
                     if(error.message.indexOf("token '") !== -1){
@@ -80,10 +89,12 @@ class Form extends Component {
                     } else{
                         this.props.popupStore.setMsg(error)
                     }
+
                     this.props.popupStore.showPopup()
                 }
             }
         }
+
         this.setState({
             length:1
         });

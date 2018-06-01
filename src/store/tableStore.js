@@ -7,10 +7,9 @@ class tableStore {
     this.fileArr = []
   }
 
-  @action setArr(arr){
+  @action setArr = arr =>{
     this.fileArr = arr
   }
-
 }
 
 export default new tableStore();
