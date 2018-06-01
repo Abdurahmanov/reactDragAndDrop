@@ -42,7 +42,7 @@
       border-bottom: 1px solid #f6f6f6;
       transition: .3s; }
       .form__table tr:hover {
-        background: #f6f6f6;
+        background: #e0e0e0;
         transition: .3s; }
     .form__table th {
       font-size: 20px;
