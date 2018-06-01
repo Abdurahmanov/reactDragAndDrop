@@ -8,6 +8,15 @@ import Table from './FormTable';
 @inject('formStore')
 @observer
 class Form extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+
+        };
+    }
+
     render() {
         return (
             <div className="form__block">
